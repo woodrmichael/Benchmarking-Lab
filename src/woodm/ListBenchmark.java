@@ -21,7 +21,7 @@ public class ListBenchmark {
      * @return an array of longs containing the time, in nanoseconds,
      * required for each benchmark to complete
      */
-    public long[] runBenchmarks(String listType, String operation, int size,
+    public static long[] runBenchmarks(String listType, String operation, int size,
                                 int multiplier, int numberOfTests) {
         return null;
     }
@@ -30,7 +30,7 @@ public class ListBenchmark {
      * Returns a string that describes the required command line arguments to the user
      * @return a string with text describing the required command line arguments
      */
-    public String getHelp() {
+    public static String getHelp() {
         return null;
     }
 }
