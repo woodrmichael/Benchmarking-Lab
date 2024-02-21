@@ -16,8 +16,11 @@ public class Benchmarker {
         final int argsCount = 5;
         if(args.length != argsCount) {
             System.out.println(ListBenchmark.getHelp());
+        } else {
+            long[] values = ListBenchmark.runBenchmarks(args[0], args[1],
+                    Integer.parseInt(args[2]), Integer.parseInt(args[3]),
+                    Integer.parseInt(args[4]));
         }
-        long[] values = ListBenchmark.runBenchmarks(args[0], args[1],
-                Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+
     }
 }
