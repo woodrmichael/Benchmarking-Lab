@@ -7,7 +7,7 @@ associated with each commit.
 ## [Link to Lab 6 assignment](https://csse.msoe.us/csc1120/lab6)
 
 * [ ] Commit 1 "Rename package"
-    - Rename the package to your MSOE username
+    - Rename the package to your MSOE woodm
     - Add the `ListBenchmark` class
     - Stub out the two required methods and write JavaDoc comments for each
 * [ ] Commit 2 "Command Line Input"
