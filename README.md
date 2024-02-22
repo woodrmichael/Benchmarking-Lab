@@ -10,7 +10,7 @@ associated with each commit.
     - Rename the package to your MSOE woodm
     - Add the `ListBenchmark` class
     - Stub out the two required methods and write JavaDoc comments for each
-* [ ] Commit 2 "Command Line Input"
+* [x] Commit 2 "Command Line Input"
   Implement the `main()` method so that it parses the command line input and calls
   the `ListBencmark.runBenchmarks()` method. You do not need to handle exceptions yet.
 * [ ] Commit 3 "Private methods for ListBenchmark"
