@@ -13,7 +13,7 @@ associated with each commit.
 * [x] Commit 2 "Command Line Input"
   Implement the `main()` method so that it parses the command line input and calls
   the `ListBencmark.runBenchmarks()` method. You do not need to handle exceptions yet.
-* [ ] Commit 3 "Private methods for ListBenchmark"
+* [x] Commit 3 "Private methods for ListBenchmark"
     - Identify private methods for the `ListBenchmark` class needed to complete the assignment
       (used as helper methods to complete the implementation of the two required public methods)
     - Stub out the methods and provide JavaDoc for the methods.
@@ -26,16 +26,16 @@ associated with each commit.
 
 ### Benchmark Parameters
 
- * `java.util.ArrayList` indexedContains ?? ?? ?? [??ns]
- * `java.util.ArrayList` contains ?? ?? ?? [??ns]
- * `java.util.LinkedList` indexedContains ?? ?? ?? [??ns]
- * `java.util.LinkedList` contains ?? ?? ?? [??ns]
- * `csc1120.ArrayList` indexedContains ?? ?? ?? [??ns]
- * `csc1120.ArrayList` contains ?? ?? ?? [??ns]
- * `csc1120.LinkedList` indexedContains ?? ?? ?? [??ns]
- * `csc1120.LinkedList` contains ?? ?? ?? [??ns]
- * `csc1120.LinkedListTurbo` indexedContains ?? ?? ?? [??ns]
- * `csc1120.LinkedListTurbo` contains ?? ?? ?? [??ns]
+ * `java.util.ArrayList` indexedContains 10000000 1 1 [21,142,000 ns]
+ * `java.util.ArrayList` contains 10000000 1 1 [19,338,400 ns]
+ * `java.util.LinkedList` indexedContains 50 8 5 [23,550,797,300 ns]
+ * `java.util.LinkedList` contains 10000000 1 1 [32,097,800 ns]
+ * `datastructures.ArrayList` indexedContains ?? ?? ?? [??ns]
+ * `datastructures.ArrayList` contains ?? ?? ?? [??ns]
+ * `datastructures.LinkedList` indexedContains 50 8 5 [31,695,613,600 ns]
+ * `datastructures.LinkedList` contains ?? ?? ?? [??ns]
+ * `datastructures.LinkedListTurbo` indexedContains ?? ?? ?? [??ns]
+ * `datastructures.LinkedListTurbo` contains ?? ?? ?? [??ns]
 
 ## [Link to Lab 7 assignment](https://csse.msoe.us/csc1120/lab7)
 

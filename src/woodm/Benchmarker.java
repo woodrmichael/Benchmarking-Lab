@@ -7,20 +7,33 @@
  */
 package woodm;
 
-
 /**
  * This is the class to run the benchmarks.
  */
 public class Benchmarker {
     public static void main(String[] args) {
+        String help = ListBenchmark.getHelp();
         final int argsCount = 5;
         if(args.length != argsCount) {
-            System.out.println(ListBenchmark.getHelp());
+            System.out.println(help);
         } else {
-            long[] values = ListBenchmark.runBenchmarks(args[0], args[1],
-                    Integer.parseInt(args[2]), Integer.parseInt(args[3]),
-                    Integer.parseInt(args[4]));
+            try {
+                String listType = args[0];
+                String operation = args[1];
+                int size = Integer.parseInt(args[2]);
+                int multiplier = Integer.parseInt(args[3]);
+                int numberOfTests = Integer.parseInt(args[4]);
+                long[] values = ListBenchmark.runBenchmarks(listType, operation, size,
+                        multiplier, numberOfTests);
+                for(int i = 0; i < values.length; i++) {
+                    System.out.format("[%,d ns]  ", values[i]);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(help);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                System.out.println(help);
+            }
         }
-
     }
 }

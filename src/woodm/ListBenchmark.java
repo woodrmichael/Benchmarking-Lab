@@ -7,12 +7,12 @@
  */
 package woodm;
 
-
 import java.util.List;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Objects;
 
 /**
  * A class used to benchmark different kinds of list methods.
@@ -23,7 +23,7 @@ public class ListBenchmark {
      * @param listType The type of list to benchmark.
      * @param operation The method to be benchmarked on the list.
      * @param size the size of the list.
-     * @param multiplier how much the size should multiply by between each test.
+     * @param multiplier how much the size of the list should multiply by between each test.
      * @param numberOfTests the amount of tests.
      * @return an array of longs containing the time, in nanoseconds,
      * required for each benchmark to complete.
@@ -31,13 +31,17 @@ public class ListBenchmark {
      * @throws IllegalArgumentException Thrown if listType, operation, size, multiplier,
      * or numberOfTests aren't valid.
      */
-    public static long[] runBenchmarks(String listType, String operation, int size,
-                                int multiplier, int numberOfTests) throws IllegalArgumentException{
+    public static long[] runBenchmarks(String listType, String operation, int size, int multiplier,
+                                       int numberOfTests) throws IllegalArgumentException {
+        checkInputNumbers(size, multiplier, numberOfTests);
+        long[] elapsedTimes = new long[numberOfTests];
         for(int i = 0; i < numberOfTests; i++) {
-            List<Integer> list = generateList(listType, size);
+            Integer[] arr = fillList(size);
+            List<Integer> list = generateList(arr, listType);
+            elapsedTimes[i] = runOperation(list, operation);
+            size *= multiplier;
         }
-
-        return null;
+        return elapsedTimes;
     }
 
     /**
@@ -45,35 +49,41 @@ public class ListBenchmark {
      * @return a string with text describing the required command line arguments.
      */
     public static String getHelp() {
-        return null;
+        return """
+                [listType] [operation] [size] [multiplier] [numberOfTests]
+                listType: The type of list to benchmark.
+                operation: The method to be benchmarked on the list.
+                size: the size of the list.
+                multiplier: how much the size of the list should multiply by between each test.
+                numberOfTests: the amount of tests.""";
     }
 
     /**
-     * Fills an array of integers with a specified size with a random integer at each index.
+     * Fills an array of integers with a specified size with
+     * a random positive integer at each index.
      * @param size the size of the array.
-     * @return an array of integers with random integers at each index.
+     * @return an array of integers with random integers from 0 to 2^31 -1.
      */
     private static Integer[] fillList(int size) {
         Random generator = new Random();
         Integer[] arr = new Integer[size];
         for(int i = 0; i < size; i++) {
-            arr[i] = generator.nextInt();
+            arr[i] = generator.nextInt(Integer.MAX_VALUE);
         }
         return arr;
     }
 
     /**
-     * Generates a filled list of random integers of a specified list type and size.
+     * Generates a specific type of list using a given array of random integers.
+     * @param arr the array to be converted into a list
      * @param listType the type of list.
-     * @param size the size of the list.
      * @return a list of integers with random integers at each index.
      *
      * @throws IllegalArgumentException thrown if size is less than 0 or if listType isn't
      * a valid type. Valid options are 'java.util.ArrayList', 'java.util.LinkedList',
      * 'datastructures.ArrayList', 'datastructures.LinkedList', or 'datastructures.LinkedListTurbo'
      */
-    private static List<Integer> generateList(String listType, int size) {
-        Integer[] arr = fillList(size);
+    private static List<Integer> generateList(Integer[] arr, String listType) {
         return switch (listType) {
             case "java.util.ArrayList" -> new ArrayList<>(Arrays.stream(arr).toList());
             case "java.util.LinkedList" -> new LinkedList<>(Arrays.stream(arr).toList());
@@ -94,20 +104,69 @@ public class ListBenchmark {
      * Valid options are 'addToFront', 'contains', or 'indexedContains'.
      */
     private static long runOperation(List<Integer> list, String operation) {
-        return -1;
+        Integer value = new Random().nextInt(Integer.MAX_VALUE) * -1;
+        long startTime;
+        long endTime;
+        switch (operation) {
+            case "addToFront":
+                startTime = System.nanoTime();
+                list.add(0, value);
+                endTime = System.nanoTime();
+                break;
+            case "contains":
+                startTime = System.nanoTime();
+                list.contains(value);
+                endTime = System.nanoTime();
+                break;
+            case "indexedContains":
+                startTime = System.nanoTime();
+                indexedContains(list, value);
+                endTime = System.nanoTime();
+                break;
+            default:
+                throw new IllegalArgumentException("Ensure the operation is valid. " +
+                    "Valid options are 'addToFront', 'contains', or 'indexedContains'.");
+        }
+        return endTime - startTime;
     }
-
 
     /**
-     * Calculates the elapsed time to execute an operation in ns.
-     * @param startTime the time the operation was started.
-     * @return the elapsed time it takes to execute an operation.
+     * Iterates through the list using an index (calls get()) to find a match.
+     * @param list the list of integers.
+     * @param value the value to search for.
      */
-    private static long getElapsedTime(long startTime) {
-        return -1;
+    private static void indexedContains(List<Integer> list, Integer value) {
+        boolean found = false;
+        for(int i = 0; !found && i < list.size(); i++) {
+            if(Objects.equals(value, list.get(i))) {
+                found = true;
+            }
+        }
     }
 
-
-
-
+    /**
+     * Checks if the input numbers taken from the command line arguments are valid
+     * @param size the size of the list.
+     * @param multiplier how much the size of the list should multiply by between each test.
+     * @param numberOfTests the amount of tests.
+     *
+     * @throws IllegalArgumentException Thrown if either size, multiplier,
+     * or numberOfTests isn't positive.
+     */
+    private static void checkInputNumbers(int size, int multiplier, int numberOfTests)
+            throws IllegalArgumentException {
+        StringBuilder message = new StringBuilder();
+        if(size < 1) {
+            message.append("Please ensure size is >= 1\n");
+        }
+        if(multiplier < 1) {
+            message.append("Please ensure multiplier is >= 1\n");
+        }
+        if(numberOfTests < 1) {
+            message.append("Please ensure numberOfTests is >= 1\n");
+        }
+        if(!message.isEmpty()) {
+            throw new IllegalArgumentException(message.toString());
+        }
+    }
 }
