@@ -17,12 +17,12 @@ associated with each commit.
     - Identify private methods for the `ListBenchmark` class needed to complete the assignment
       (used as helper methods to complete the implementation of the two required public methods)
     - Stub out the methods and provide JavaDoc for the methods.
-* [ ] Commit 4 "Benchmark Parameters for java.util benchmarks"
+* [x] Commit 4 "Benchmark Parameters for java.util benchmarks"
     - Implement the remaining requirements for the lab assignment.
     - Fill in values for the benchmarking parameters below for the first four listed (the `?? ?? ?? [??ns]` on each line)
-* [ ] Commit 5 "Lab completed"
+* [x] Commit 5 "Lab completed"
     - Fill in remaining values for the benchmarking parameters below (the `?? ?? ?? [??ns]` on each line)
-    - Remove the dashes on this line when lab 5 is ready to be graded (and commit and push): D-O-N-E-6
+    - Remove the dashes on this line when lab 5 is ready to be graded (and commit and push): DONE6
 
 ### Benchmark Parameters
 
@@ -30,12 +30,12 @@ associated with each commit.
  * `java.util.ArrayList` contains 10000000 1 1 [19,338,400 ns]
  * `java.util.LinkedList` indexedContains 50 8 5 [23,550,797,300 ns]
  * `java.util.LinkedList` contains 10000000 1 1 [32,097,800 ns]
- * `datastructures.ArrayList` indexedContains ?? ?? ?? [??ns]
- * `datastructures.ArrayList` contains ?? ?? ?? [??ns]
+ * `datastructures.ArrayList` indexedContains 10000000 1 1 [20,943,200 ns]
+ * `datastructures.ArrayList` contains 10000000 1 1 [31,655,500 ns]
  * `datastructures.LinkedList` indexedContains 50 8 5 [31,695,613,600 ns]
- * `datastructures.LinkedList` contains ?? ?? ?? [??ns]
- * `datastructures.LinkedListTurbo` indexedContains ?? ?? ?? [??ns]
- * `datastructures.LinkedListTurbo` contains ?? ?? ?? [??ns]
+ * `datastructures.LinkedList` contains 10000000 1 1 [36,442,900 ns]
+ * `datastructures.LinkedListTurbo` indexedContains 10000000 1 1 [83,244,400 ns]
+ * `datastructures.LinkedListTurbo` contains 10000000 1 1 [55,691,600 ns]
 
 ## [Link to Lab 7 assignment](https://csse.msoe.us/csc1120/lab7)
 
