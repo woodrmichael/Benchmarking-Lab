@@ -41,7 +41,7 @@ associated with each commit.
 
 * [x] Commit 1 "Create report document"
     - Create Word document for your report. Include a title page.
-* [ ] Commit 2 "Big-O Analysis"
+* [x] Commit 2 "Big-O Analysis"
     - Add your Big-O analysis to the report
 * [ ] Commit 3 "Convert to JavaFX Program"
     - Implement `BenchmarkerFX` which accepts commandline arguments as a JavaFX program
