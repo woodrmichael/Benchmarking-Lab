@@ -39,7 +39,7 @@ associated with each commit.
 
 ## [Link to Lab 7 assignment](https://csse.msoe.us/csc1120/lab7)
 
-* [ ] Commit 1 "Create report document"
+* [x] Commit 1 "Create report document"
     - Create Word document for your report. Include a title page.
 * [ ] Commit 2 "Big-O Analysis"
     - Add your Big-O analysis to the report
