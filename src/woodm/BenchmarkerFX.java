@@ -8,12 +8,18 @@
 package woodm;
 
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -21,30 +27,44 @@ import java.util.Map;
  */
 public class BenchmarkerFX extends Application {
     private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int HEIGHT = 700;
+    private static final String OUTPUT_FOLDER = "plots/";
     @Override
-    public void start(Stage stage) throws NumberFormatException {
-        final Map<String, String> params = getParameters().getNamed();
-        final int argsCount = 6;
-        if(params.size() != argsCount) {
-            throw new IllegalArgumentException();
+    public void start(Stage stage) {
+        try {
+            final Map<String, String> params = getParameters().getNamed();
+            final int argsCount = 6;
+            if(params.size() != argsCount) {
+                throw new IllegalArgumentException();
+            }
+            final String implementation = params.get("implementation");
+            final String operation = params.get("operation");
+            final int startSize = Integer.parseInt(params.get("startSize"));
+            final int multiplier = Integer.parseInt(params.get("multiplier"));
+            final int numberOfSamples = Integer.parseInt(params.get("numberOfSamples"));
+            final String output = params.get("output");
+            final LineChart<Number, Number> lineChart = makeLineChart(
+                    implementation + " for " + operation);
+            long[] times = ListBenchmark.runBenchmarks(implementation,
+                    operation, startSize, multiplier, numberOfSamples);
+            double[][] coordinates = getCoordinatesArray(times, startSize, multiplier);
+            lineChart.getData().add(makeLine(coordinates));
+            Scene scene = new Scene(lineChart, WIDTH, HEIGHT);
+            stage.setScene(scene);
+            stage.setTitle(implementation + " for " + operation);
+            stage.show();
+            saveScreenShot(output, scene);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Saving Plot");
+            alert.setContentText(e.getMessage());
+            alert.show();
+        } catch (NumberFormatException e) {
+            System.out.println("//FIXME Params not integers");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            System.out.println("//FIXME");
         }
-        final String implementation = params.get("implementation");
-        final String operation = params.get("operation");
-        final int startSize = Integer.parseInt(params.get("startSize"));
-        final int multiplier = Integer.parseInt(params.get("multiplier"));
-        final int numberOfSamples = Integer.parseInt(params.get("numberOfSamples"));
-        final String output = params.get("output");
-        final LineChart<Number, Number> lineChart = makeLineChart(
-                implementation + " for " + operation);
-        double[][] coordinates = getCoordinatesArray(
-                implementation, operation, startSize, multiplier, numberOfSamples);
-        lineChart.getData().add(makeLine(coordinates));
-
-        Scene scene = new Scene(lineChart, WIDTH, HEIGHT);
-        stage.setScene(scene);
-        stage.setTitle(implementation + " for " + operation);
-        stage.show();
     }
 
     public static void main(String[] args) {
@@ -53,24 +73,21 @@ public class BenchmarkerFX extends Application {
 
     /**
      * Returns a 2D array containing the coordinates to be plotted on a line chart.
-     * @param implementation The type of list to benchmark.
-     * @param operation The method to be benchmarked on the list.
-     * @param startSize the size of the list.
+     * @param times An array of longs containing the times it took to benchmark the operation
+     *              on the list.
+     * @param startSize the original size of the list.
      * @param multiplier how much the size of the list should multiply by between each test.
-     * @param numberOfSamples the amount of tests.
      * @return a 2D array containing the coordinates of list sizes in x and runtimes in y.
      */
-    private static double[][] getCoordinatesArray(String implementation, String operation,
-                                                  int startSize, int multiplier,
-                                                  int numberOfSamples) {
+    private static double[][] getCoordinatesArray(long[] times, int startSize, int multiplier) {
         final double msConversionFactor = 1_000_000;
-        long[] times = ListBenchmark.runBenchmarks(implementation, operation, startSize,
-                multiplier, numberOfSamples);
+        final int x = 0;
+        final int y = 1;
         double[][] coordinates = new double[times.length][2];
         int size = startSize;
         for(int i = 0; i < coordinates.length; i++) {
-            coordinates[i][0] = size;
-            coordinates[i][1] = times[i] / msConversionFactor;
+            coordinates[i][x] = size;
+            coordinates[i][y] = times[i] / msConversionFactor;
             size *= multiplier;
         }
         return coordinates;
@@ -106,5 +123,17 @@ public class BenchmarkerFX extends Application {
         }
         series.setName("Time to Completion");
         return series;
+    }
+
+    /**
+     * Saves a screenshot of the specified scene
+     * @param filename name of the file for the image to be saved
+     * @param scene the scene to be captured and saved
+     * @throws IOException if an error is encountered while writing the file
+     */
+    private static void saveScreenShot(String filename, Scene scene) throws IOException {
+        WritableImage image = scene.snapshot(null);
+        File file = new File(filename == null ? OUTPUT_FOLDER + "plot.png" : filename);
+        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "PNG", file);
     }
 }

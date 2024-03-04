@@ -43,11 +43,11 @@ associated with each commit.
     - Create Word document for your report. Include a title page.
 * [x] Commit 2 "Big-O Analysis"
     - Add your Big-O analysis to the report
-* [ ] Commit 3 "Convert to JavaFX Program"
+* [x] Commit 3 "Convert to JavaFX Program"
     - Implement `BenchmarkerFX` which accepts commandline arguments as a JavaFX program
-* [ ] Commit 4 "Display Chart in JavaFX"
+* [x] Commit 4 "Display Chart in JavaFX"
     - Implement functionality to display a chart with the benchmarking results
-* [ ] Commit 5 "Save PNG image"
+* [x] Commit 5 "Save PNG image"
     - Implement functionality to save chart as a PNG image in the `plots` folder
     - Add plots to the report
 * [ ] Commit 6 "Lab completed"
