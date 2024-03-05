@@ -49,13 +49,23 @@ public class ListBenchmark {
      * @return a string with text describing the required command line arguments.
      */
     public static String getHelp() {
-        return """
-                [listType] [operation] [size] [multiplier] [numberOfTests]
-                listType: The type of list to benchmark.
-                operation: The method to be benchmarked on the list.
-                size: the size of the list.
-                multiplier: how much the size of the list should multiply by between each test.
-                numberOfTests: the amount of tests.""";
+        return "\nThis program is able to generate benchmark results that generate graphs that " +
+                "show the amount of time it takes for the desired list implementations to " +
+                "complete the desired operation as a function of the number of elements" +
+                " stored in the list\n" +
+                "\n--implementation=[implementation] --operation=[operation] " +
+                "--startSize=[startSize] "
+                + "--multiplier=[multiplier] --numberOfSamples=[numberOfSamples]\n" +
+                "implementation: The type of list to benchmark.\n" +
+                "Valid Implementations: 'java.util.ArrayList', 'java.util.LinkedList', " +
+                "'datastructures.ArrayList', 'datastructures.LinkedList', " +
+                "or 'datastructures.LinkedListTurbo'.\n" +
+                "operation: The method to be benchmarked on the list.\n" +
+                "Valid Operations: 'addToFront', 'contains', or 'indexedContains'.\n" +
+                "startSize: the size of the list.\n" +
+                "multiplier: how much the size of the list should multiply by between each test.\n"
+                + "numberOfSamples: the amount of tests.\n" +
+                "Valid startSize, multiplier, numberOfSamples: x >= 1";
     }
 
     /**
@@ -90,7 +100,7 @@ public class ListBenchmark {
             case "datastructures.ArrayList" -> new datastructures.ArrayList<>(arr);
             case "datastructures.LinkedList" -> new datastructures.LinkedList<>(arr);
             case "datastructures.LinkedListTurbo" -> new datastructures.LinkedListTurbo<>(arr);
-            default -> throw new IllegalArgumentException("Invalid listType, please try again");
+            default -> throw new IllegalArgumentException("Invalid listType, please try again.\n");
         };
     }
 
@@ -125,7 +135,7 @@ public class ListBenchmark {
                 break;
             default:
                 throw new IllegalArgumentException("Ensure the operation is valid. " +
-                    "Valid options are 'addToFront', 'contains', or 'indexedContains'.");
+                    "Valid options are 'addToFront', 'contains', or 'indexedContains'.\n");
         }
         return endTime - startTime;
     }

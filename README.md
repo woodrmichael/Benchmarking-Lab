@@ -50,9 +50,9 @@ associated with each commit.
 * [x] Commit 5 "Save PNG image"
     - Implement functionality to save chart as a PNG image in the `plots` folder
     - Add plots to the report
-* [ ] Commit 6 "Lab completed"
+* [x] Commit 6 "Lab completed"
     - Update your code based on feedback from your instructor (if available)
     - Finish all assignment requirements.
 
-Remove the dashes on this line when lab 6 is ready to be graded (and commit and push): D-O-N-E-7
+Remove the dashes on this line when lab 6 is ready to be graded (and commit and push): DONE7
 

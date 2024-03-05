@@ -31,11 +31,15 @@ public class BenchmarkerFX extends Application {
     private static final String OUTPUT_FOLDER = "plots/";
     @Override
     public void start(Stage stage) {
+        final String help = ListBenchmark.getHelp();
+        final Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setWidth(WIDTH);
+        alert.setHeight(HEIGHT);
         try {
             final Map<String, String> params = getParameters().getNamed();
             final int argsCount = 6;
             if(params.size() != argsCount) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Please ensure all arguments are present");
             }
             final String implementation = params.get("implementation");
             final String operation = params.get("operation");
@@ -43,11 +47,14 @@ public class BenchmarkerFX extends Application {
             final int multiplier = Integer.parseInt(params.get("multiplier"));
             final int numberOfSamples = Integer.parseInt(params.get("numberOfSamples"));
             final String output = params.get("output");
+            if(!output.endsWith(".png")) {
+                throw new IllegalArgumentException("Please ensure the output file is a PNG file");
+            }
             final LineChart<Number, Number> lineChart = makeLineChart(
                     implementation + " for " + operation);
-            long[] times = ListBenchmark.runBenchmarks(implementation,
+            final long[] times = ListBenchmark.runBenchmarks(implementation,
                     operation, startSize, multiplier, numberOfSamples);
-            double[][] coordinates = getCoordinatesArray(times, startSize, multiplier);
+            final double[][] coordinates = getCoordinatesArray(times, startSize, multiplier);
             lineChart.getData().add(makeLine(coordinates));
             Scene scene = new Scene(lineChart, WIDTH, HEIGHT);
             stage.setScene(scene);
@@ -55,15 +62,18 @@ public class BenchmarkerFX extends Application {
             stage.show();
             saveScreenShot(output, scene);
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Saving Plot");
             alert.setContentText(e.getMessage());
             alert.show();
         } catch (NumberFormatException e) {
-            System.out.println("//FIXME Params not integers");
+            alert.setTitle("Error Parsing Integers");
+            alert.setContentText("Please ensure 'startSize', 'multiplier', and " +
+                    "'numberOfSamples' are positive integers\n" + help);
+            alert.show();
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            System.out.println("//FIXME");
+            alert.setTitle("Error, Invalid Arguments");
+            alert.setContentText(e.getMessage() + "\n" + help);
+            alert.show();
         }
     }
 
