@@ -1,8 +1,5 @@
 # CSC1120 Labs 6 and 7
-
-Each week you will be required to complete multiple commits that
-build towards a complete lab solution. Note your instructor's due dates
-associated with each commit.
+# Use woodm.jar to run program
 
 ## [Link to Lab 6 assignment](https://csse.msoe.us/csc1120/lab6)
 
@@ -22,7 +19,6 @@ associated with each commit.
     - Fill in values for the benchmarking parameters below for the first four listed (the `?? ?? ?? [??ns]` on each line)
 * [x] Commit 5 "Lab completed"
     - Fill in remaining values for the benchmarking parameters below (the `?? ?? ?? [??ns]` on each line)
-    - Remove the dashes on this line when lab 5 is ready to be graded (and commit and push): DONE6
 
 ### Benchmark Parameters
 
@@ -53,6 +49,4 @@ associated with each commit.
 * [x] Commit 6 "Lab completed"
     - Update your code based on feedback from your instructor (if available)
     - Finish all assignment requirements.
-
-Remove the dashes on this line when lab 6 is ready to be graded (and commit and push): DONE7
 
